@@ -21,23 +21,23 @@ This repository is divided into three parts:
 
 ## **Part 1: Story of token based edit distance**
 
-According to Wikipedia, edit distance or the Levenshtein distance is "A string metric for measuring the difference between two sequences. Informally, the Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or substitutions) required to change one word into the other." We can directly relate this concept to text similarity. Given two sentences, if we get to know how operations on characters are needed to convert one sentence into other, we can say how much they are related. For instance, if one sentence requires 100 modifications to convert another and it requires just 5 operations to convert it into third sentence, we can say the the sentence is much more similar to the third sentence. 
+According to Wikipedia, edit distance or the Levenshtein distance is "A string metric for measuring the difference between two sequences. Informally, the Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or substitutions) required to change one word into the other." We can directly relate this concept to text similarity. Given two sentences, if we understand how many operations on characters are needed to convert one sentence into another, we can determine their level of relatedness. For instance, if one sentence requires 100 modifications to convert it to another, and it requires just 5 operations to convert it into a third sentence, we can say that the sentence is much more similar to the third sentence.
 But here are few drawbacks: 
-- Consider two sentences of almost equal characters and very synonymous but use different words. Like "Today, it's gonna rain a lot" and "It's raining cats and dogs right now", are similar, but it will require a lot of character modifications to convert one from another. 
-- If a sentence had a lot of stopwords that will add extra operations if we decide not to remove them. 
-- If we had large texts, to perform character level edit distance will consume a lot of memory.
+- Consider two sentences with almost equal numbers of characters and very synonymous meanings but expressed using different words, such as "Today, it's gonna rain a lot" and "It's raining cats and dogs right now." These sentences are similar, but converting one into the other would require a substantial number of character modifications.
+- If a sentence contains numerous stopwords, the distance would be high.
+- When dealing with large texts, performing character-level edit distance calculations would consume a significant amount of memory.
 
 To overcome all these drawbacks, word based or token based edit distance can be used. Instead of inserting/deleting/substituting characters we can apply the same for words. Finally, the similarity metric would be 
-$$
-Text Similarity = 1 - \frac{editDistance}{maxLength}
-$$
+
+#### Text Similarity = 1 - (editDistance / maxLength)
 
 ## **Part 2: Extensions**
 
-The best part of using this technique in order to find similarity is we can extend this idea specific for our use cases to obtain better results. The main idea of extensions is adding different costs for different type of entities when it comes to insertions, deletions and substitutions. 
-- Consider one of the extensions added in this repo about handling stopwords. Consider a specific application where we don't need full attention to stopwords, but we cannot remove them too. If an operation is required to insert/delete/substitute a stopword, we add a negative penalty so that edit distance decreases by a certain amount. 
-- Another extension added in this repo is handling synonym and antonym differently. If we have two sentences, "I love cake" and "I hate cake", the edit distance will be 1, but we need a bigger penalty in this scenario. While substituting words, if we find that the word is an antonym, we add extra penalty so that edit distance increases and if the word is the synonym, we add negative penalty.
-We can observe that this algorithm can be tuned so that it matches our use case. For instance, if punctuations are a deal-breaker, we might consider punctuations as a seperate token and increase cost for them. 
+The best part of using this technique to find similarity is that we can extend this idea, tailoring it to our specific use cases to achieve improved results. The core concept of these extensions involves assigning distinct costs for various types of entities in terms of insertions, deletions, and substitutions. 
+- Consider one of the extensions added in this repository, specifically addressing the handling of stopwords. Imagine a specific application where full attention to stopwords is not necessary, yet we cannot remove them entirely. In cases where an operation is needed to insert, delete, or substitute a stopword, a negative penalty is introduced, resulting in a decrease in edit distance by a certain amount.
+- Another extension incorporated in this repository involves treating synonyms and antonyms differently. For instance, when comparing two sentences like "I love cake" and "I hate cake," the conventional edit distance might yield 1, but in this scenario, a larger penalty is warranted. When substituting words, if it is identified as an antonym, an additional penalty is applied to increase the edit distance. Conversely, if the word is recognized as a synonym, a negative penalty is introduced to decrease the edit distance.
+
+We can observe that this algorithm is flexible and can be tuned to align with our specific use case. For example, if punctuations play a crucial role and are considered significant, we may treat punctuations as separate tokens and elevate the cost associated with them to better reflect their impact in the similarity measurement.
 
 ## **Part 3: Instructions on how to run and docker**
 
