@@ -23,7 +23,7 @@ This repository is divided into three parts:
 
 According to Wikipedia, edit distance or the Levenshtein distance is "A string metric for measuring the difference between two sequences. Informally, the Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or substitutions) required to change one word into the other." We can directly relate this concept to text similarity. Given two sentences, if we get to know how operations on characters are needed to convert one sentence into other, we can say how much they are related. For instance, if one sentence requires 100 modifications to convert another and it requires just 5 operations to convert it into third sentence, we can say the the sentence is much more similar to the third sentence. 
 But here are few drawbacks: 
-- Consider two sentences of almost equal characters and very synonymous but use different words. Like "Today, it's gonna rain" and "It's raining cats and dogs right now", are similar, but it will require a lot of character modifications to convert one from another. 
+- Consider two sentences of almost equal characters and very synonymous but use different words. Like "Today, it's gonna rain a lot" and "It's raining cats and dogs right now", are similar, but it will require a lot of character modifications to convert one from another. 
 - If a sentence had a lot of stopwords that will add extra operations if we decide not to remove them. 
 - If we had large texts, to perform character level edit distance will consume a lot of memory.
 
@@ -46,14 +46,18 @@ We can observe that this algorithm can be tuned so that it matches our use case.
 
     This file has sample1 and sample2 sentence hard coded and it will print the number of insertions, deletions and substitutions required to convert sample1 to sample2 and also prints the penalties and similarity
 
-- To run using a web server and POST request:
+- To run this as a web service, a POST API has been exposed to which we can provide the sentences and obtain the similarity between them:
     - First run:
         > python app.py
     - Server starts running at: http://127.0.0.1:5000/
     - Set the header key as "Content-Type" and value as "application/json"
-    - Create a JSON dictionary with keys "string1" and "string2" for the sentences to be compared
+    - Create a JSON body with keys "string1" and "string2" for the sentences to be compared
     - Send a POST request to http://127.0.0.1:5000/similarity without any authorization and input type as JSON
 
 - To run using docker:
-    - Build docker image by downloading from the Docker Hub using this tag **stunningsid/text-similarity:text-similarity**
-    - Run the docker file and send the POST request using same instructions above for the web server
+    - Pull docker image from the Docker Hub using the following commmand:
+        > docker pull stunningsid/text-similarity:text-similarity
+    - Run the docker file using the following command:
+        > docker run -p 5000:5000 stunningsid/text-similarity:text-similarity
+    - The application will now start running on http://127.0.0.1:5000/
+    - Follow the same set of instructions to use the exposed POST API
