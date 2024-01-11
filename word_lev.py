@@ -67,6 +67,13 @@ if __name__ == "__main__":
 
     syn_ant_dict = {"love":[("lust", "passion"), ("hate","dislike")]}
 
-    ids = main(sample1, sample2, stopwords, syn_ant_dict)
+    ids, max_length = main(sample1, sample2, stopwords, syn_ant_dict)
 
-    print(ids)
+    response = {}
+    response["insertions"] = ids[0]
+    response["deletions"] = ids[1]
+    response["substitutions"] = ids[2]
+    response["penalty"] = ids[3]
+    response["similarity_score"] = 1 - sum(ids) / max_length
+
+    print(response)
